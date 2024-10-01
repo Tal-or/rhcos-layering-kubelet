@@ -14,6 +14,9 @@ MCLABEL="machineconfiguration.openshift.io/role: worker-cnf"
 #
 # Find the proper RHCOS base image for building the override
 # layer
+# Either use:
+#   oc adm release info --image-for=rhel-coreos 4.16.ZZ
+# Or as a developer do:
 # 1. Go to https://amd64.ocp.releases.ci.openshift.org/releasestream/4-stable and click on the wanted OCP release
 # 2. Wait for the changelog to load at the bottom of the page
 # 3. find Changes from / Changes / Components / Red Hat Enterprise Linux CoreOS upgraded from (A) to (B)
