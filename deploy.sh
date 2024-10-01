@@ -30,7 +30,7 @@ FROM="quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:da4c28471c05718a1e90
 sed -e "s|^FROM quay.io/openshift-release.*$|FROM ${FROM}|" Containerfile.orig > Containerfile
 
 # Build the layer
-podman build -t ${REGISTRY_IMAGE} .
+podman build --no-cache -t ${REGISTRY_IMAGE} .
 podman push ${REGISTRY_IMAGE}
 
 # Configure the MachineConfig
