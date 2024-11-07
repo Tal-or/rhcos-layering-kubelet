@@ -1,7 +1,7 @@
 FROM quay.io/centos/centos:stream9 AS builder
 
 ARG K8SREPO=https://github.com/openshift/kubernetes.git
-ARG K8SPR=2088
+ARG K8SPR=2128
 ARG K8SBRANCH=kubelet-llc
 
 ENV HOME=/home/ci
