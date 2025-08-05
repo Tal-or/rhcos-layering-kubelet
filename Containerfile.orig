@@ -1,8 +1,8 @@
 FROM quay.io/centos/centos:stream9 AS builder
 
 ARG K8SREPO=https://github.com/openshift/kubernetes.git
-ARG K8SPR=2128
-ARG K8SBRANCH=kubelet-llc
+ARG K8SPR=2366
+ARG K8SBRANCH=devmgr-instrument-4.16
 
 ENV HOME=/home/ci
 
@@ -29,6 +29,7 @@ RUN git clone $K8SREPO
 WORKDIR /go/src/k8s.io/kubernetes
 RUN git fetch origin pull/$K8SPR/head:$K8SBRANCH
 RUN git checkout $K8SBRANCH
+RUN go mod tidy && go mod vendor
 RUN ./openshift-hack/build-rpms.sh
 
 #
@@ -42,7 +43,7 @@ RUN ./openshift-hack/build-rpms.sh
 # 4. Click (B) which will take you to the RHCOS release details page
 # 5. Copy the RHCOS Base OS url to the FROM below
 #
-FROM quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:da4c28471c05718a1e90879d5d932a9054a0e2e4248255bb079c58a3c13e58fe
+FROM quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:71a177fcc36bd91e20ac0414b081016a3f592387f57b4f39738928ea5046aed4
 COPY --from=builder /go/src/k8s.io/kubernetes/_output/local/releases/rpms/*.rpm /root/rpms/
 RUN rpm-ostree override replace /root/rpms/*.rpm && \
     rpm-ostree cleanup -m && \
